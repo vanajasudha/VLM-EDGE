@@ -1,0 +1,26 @@
+/home/deepika/vlm-edge/venv/lib/python3.11/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/home/deepika/vlm-edge/venv/lib/python3.11/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+4-bit layers: 213
+Ordinary linear layers: 1
+
+First 15 quantized layers:
+model.vision.patch_emb
+model.vision.blocks.0.attn.qkv
+model.vision.blocks.0.attn.proj
+model.vision.blocks.0.mlp.fc1
+model.vision.blocks.0.mlp.fc2
+model.vision.blocks.1.attn.qkv
+model.vision.blocks.1.attn.proj
+model.vision.blocks.1.mlp.fc1
+model.vision.blocks.1.mlp.fc2
+model.vision.blocks.2.attn.qkv
+model.vision.blocks.2.attn.proj
+model.vision.blocks.2.mlp.fc1
+model.vision.blocks.2.mlp.fc2
+model.vision.blocks.3.attn.qkv
+model.vision.blocks.3.attn.proj
+
+First 15 ordinary layers:
+model.region.size_decoder.fc2

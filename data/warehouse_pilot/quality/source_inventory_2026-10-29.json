@@ -1,0 +1,13 @@
+{
+  "available_permitted_warehouse_images": 0,
+  "genuinely_verified_images": 0,
+  "genuinely_verified_labels": 0,
+  "workspace_saved_images": 12,
+  "workspace_saved_image_distinct_sha256": 1,
+  "workspace_sample_videos": 4,
+  "workspace_sample_video_distinct_sha256": 1,
+  "saved_image_observation": "Stylized forest demo, not genuine warehouse imagery",
+  "warehouse_permission_records_available": 0,
+  "downloads_performed": false,
+  "ground_truth_created_by_agent": false
+}

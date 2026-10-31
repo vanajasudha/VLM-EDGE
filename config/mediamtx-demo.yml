@@ -1,0 +1,12 @@
+logLevel: warn
+rtspAddress: 127.0.0.1:8554
+protocols: [tcp]
+rtmp: no
+hls: no
+webrtc: no
+srt: no
+paths:
+  cam1:
+  cam2:
+  cam3:
+  cam4:

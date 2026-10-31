@@ -1,0 +1,74 @@
+# Python environments, caches and packaging
+venv/
+.venv/
+env/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+*.egg-info/
+build/
+dist/
+# Credentials
+.env
+.env.*
+!.env.example
+secrets.toml
+credentials*
+*.pem
+*.key
+.aws/
+.ssh/
+# Downloaded model weights and caches
+.cache/
+.huggingface/
+models/
+model_weights/
+checkpoints/
+qwen2-vl-2b-awq/
+*.safetensors
+*.bin
+*.pt
+*.pth
+*.ckpt
+*.onnx
+# Supply video sources separately with appropriate rights
+*.mp4
+*.avi
+*.mov
+*.mkv
+*.webm
+# Runtime state, generated outputs and backups; CSV remains eligible
+.runtime/
+experiments/
+outputs/
+logs/
+*.log
+*.tmp
+*.temp
+*.lock
+*.orig
+*.bak
+*~
+*.deb
+data/warehouse_pilot/images/*
+!data/warehouse_pilot/images/.gitkeep
+data/warehouse_pilot/permissions/*
+!data/warehouse_pilot/permissions/README.md
+!data/warehouse_pilot/permissions/.gitkeep
+data/warehouse_pilot/annotations/*
+!data/warehouse_pilot/annotations/.gitkeep
+data/warehouse_pilot/exports/*
+!data/warehouse_pilot/exports/.gitkeep
+# IDE and OS state
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.swp
+*.swo

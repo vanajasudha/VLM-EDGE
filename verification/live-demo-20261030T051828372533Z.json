@@ -1,0 +1,72 @@
+{
+  "started_utc": "2026-10-30T05:17:45.214854+00:00",
+  "streams": {
+    "cam1": {
+      "url": "rtsp://127.0.0.1:8554/cam1",
+      "distinct_decoded_frames": 21,
+      "frames_received": 277,
+      "shape": [
+        360,
+        640,
+        3
+      ],
+      "age_seconds": 0.023486292999905345
+    },
+    "cam2": {
+      "url": "rtsp://127.0.0.1:8554/cam2",
+      "distinct_decoded_frames": 20,
+      "frames_received": 359,
+      "shape": [
+        360,
+        640,
+        3
+      ],
+      "age_seconds": 0.003718223999953807
+    },
+    "cam3": {
+      "url": "rtsp://127.0.0.1:8554/cam3",
+      "distinct_decoded_frames": 20,
+      "frames_received": 320,
+      "shape": [
+        360,
+        640,
+        3
+      ],
+      "age_seconds": 0.005906554000034703
+    },
+    "cam4": {
+      "url": "rtsp://127.0.0.1:8554/cam4",
+      "distinct_decoded_frames": 20,
+      "frames_received": 221,
+      "shape": [
+        360,
+        640,
+        3
+      ],
+      "age_seconds": 0.005855122000070878
+    }
+  },
+  "reconnect": {
+    "rejected_while_offline": true,
+    "connection": 2
+  },
+  "ai": {
+    "answer": "The image features a large, majestic tree situated in the center of a grassy area, surrounded by rocks and bushes. It has a hollow in its trunk and appears to be quite large, possibly a treehouse or den within the forest.",
+    "duration_ms": 6690.315131000034,
+    "frame_metadata": {
+      "camera_id": "cam1",
+      "frame_sequence": 998,
+      "connection": 2,
+      "received_at_utc": "2026-10-30T05:18:21.564633+00:00",
+      "received_monotonic": 744.44939631,
+      "source_kind": "unverified_rtsp",
+      "frame_age_at_inference_seconds": 0.043790660000013304
+    },
+    "question": "What is visible in this image?",
+    "submitted_image": "verification/live-submitted-20261030T051828299855Z.png",
+    "gpu": "NVIDIA GeForce RTX 3050 Laptop GPU",
+    "allocated_mib": 2275.6357421875,
+    "peak_allocated_mib": 2420.7099609375
+  },
+  "passed": true
+}

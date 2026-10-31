@@ -1,0 +1,10 @@
+VLM-Edge Quantized Benchmark Report
+Model: Moondream2, selective 4-bit with BFloat16 compute
+Question: What is happening in this scene?
+Warm-up runs (excluded): 1
+Total frames: 8
+Average latency: 2239.3 ms
+Average peak allocated GPU memory: 2420.7 MB
+Average sampled GPU power: 47.6 W
+
+Note: Memory is PyTorch peak allocated memory. Power is sampled before and after each inference, not continuous power monitoring.

@@ -1,0 +1,53 @@
+{
+  "status": "NOT_READY",
+  "registered_active_images": 0,
+  "distinct_byte_hashes": 0,
+  "images_with_verified_labels": 0,
+  "verified_labels": 0,
+  "draft_labels": 0,
+  "question_types": {
+    "binary": 0,
+    "count": 0,
+    "description": 0
+  },
+  "binary_balance": {
+    "yes": 0,
+    "no": 0
+  },
+  "coverage": {
+    "boxes": 0,
+    "challenging_lighting": 0,
+    "empty": 0,
+    "forklift": 0,
+    "loading_dock": 0,
+    "occlusion": 0,
+    "occupied": 0,
+    "pallet_truck": 0,
+    "pallets": 0,
+    "storage_aisle": 0,
+    "walkway_clear": 0,
+    "walkway_obstructed": 0,
+    "worker": 0
+  },
+  "near_duplicate_candidates": [],
+  "split_images": {
+    "train": 0,
+    "validation": 0,
+    "test": 0
+  },
+  "duplicate_detection": {
+    "algorithm": "EXIF-transposed grayscale dHash 9x8",
+    "hamming_threshold": 5,
+    "candidate_only": true
+  },
+  "self_verified_labels": 0,
+  "errors": [
+    "No permitted genuine warehouse images registered",
+    "No human-verified labels available"
+  ],
+  "warnings": [
+    "Missing declared coverage: boxes, challenging_lighting, empty, forklift, loading_dock, occlusion, occupied, pallet_truck, pallets, storage_aisle, walkway_clear, walkway_obstructed, worker",
+    "Pilot target (~40 distinct images / ~120 pairs) not reached"
+  ],
+  "gpu_evaluation_authorized": false
+}

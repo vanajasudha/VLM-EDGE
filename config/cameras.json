@@ -1,0 +1,9 @@
+{
+  "stale_after_seconds": 3.0,
+  "cameras": {
+    "cam1": {"url": "rtsp://127.0.0.1:8554/cam1", "source_kind": "demo_rtsp"},
+    "cam2": {"url": "rtsp://127.0.0.1:8554/cam2", "source_kind": "demo_rtsp"},
+    "cam3": {"url": "rtsp://127.0.0.1:8554/cam3", "source_kind": "demo_rtsp"},
+    "cam4": {"url": "rtsp://127.0.0.1:8554/cam4", "source_kind": "demo_rtsp"}
+  }
+}

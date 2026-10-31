@@ -1,0 +1,36 @@
+VLM-Edge Baseline Benchmark Report
+Model: Moondream2 (stock PyTorch, FP16)
+Question asked: What is happening in this scene?
+Warm-up runs (excluded): 1
+Total frames: 8
+Average latency: 8635.8 ms
+Average VRAM used: 4281 MB
+Average power draw: 29.8 W
+
+Per-camera averages:
+rtsp://localhost:8554/cam1 | 8000.5 ms | 4281 MB | 29.8 W
+rtsp://localhost:8554/cam2 | 8713.0 ms | 4281 MB | 29.8 W
+rtsp://localhost:8554/cam3 | 9216.2 ms | 4281 MB | 29.8 W
+rtsp://localhost:8554/cam4 | 8613.3 ms | 4281 MB | 29.8 W
+
+Per-frame results (with the model's full answer):
+rtsp://localhost:8554/cam1 | frame 0 | 7679.6 ms | 4281 MB | 29.8 W
+    Answer: The image depicts a serene, fantastical forest scene featuring a tree with a hole in its trunk, situated on a grassy hill. The tree appears to have a unique, whimsical design, resembling a cave or a hollow tree. The surrounding area is lush with green grass and trees, creating a peaceful and serene atmosphere.
+rtsp://localhost:8554/cam1 | frame 1 | 8321.4 ms | 4281 MB | 29.8 W
+    Answer: The image depicts a serene, fantastical forest scene featuring a tree with a hole in its trunk, situated on a grassy hill. The tree is surrounded by various rocks and shrubs, giving the impression of a natural, undisturbed environment. The scene is bathed in sunlight, creating a warm and inviting atmosphere. The combination of the tree, rocks, and grass creates a peaceful and serene setting.
+rtsp://localhost:8554/cam2 | frame 0 | 8473.4 ms | 4281 MB | 29.9 W
+    Answer: The image depicts a serene, fantastical forest scene featuring a tree with a hole in its trunk, situated on a grassy hill. The tree is surrounded by various rocks and shrubs, giving the impression of a natural, undisturbed environment. The scene is bathed in sunlight, creating a warm and inviting atmosphere. The combination of the tree, rocks, and grass creates a peaceful and serene setting.
+rtsp://localhost:8554/cam2 | frame 1 | 8952.7 ms | 4281 MB | 29.8 W
+    Answer: The image depicts a serene, fantastical forest scene featuring a tree with a hole in its trunk, situated on a grassy hill. The tree appears to have a unique, whimsical design, resembling a tree with roots growing out of the ground. The area around the tree is covered in green grass, creating a lush and vibrant environment. Near the tree, there is a cave-like opening in the ground, adding to the fantastical and mysterious atmosphere of the scene.
+rtsp://localhost:8554/cam3 | frame 0 | 9363.8 ms | 4281 MB | 29.8 W
+    Answer: The image depicts a serene, fantastical forest scene with a large tree growing from a mound of grass. The tree has a hollow at its base, resembling a cave or den. The tree is surrounded by various rocks and shrubs, creating a lush and vibrant environment. 
+
+In the background, there are several other trees scattered throughout the scene, adding depth and complexity to the landscape. The overall atmosphere is peaceful and serene, evoking a sense of tranquility and wonder.
+rtsp://localhost:8554/cam3 | frame 1 | 9068.7 ms | 4281 MB | 29.8 W
+    Answer: The image depicts a serene, fantastical forest scene with a large tree growing out of a grassy mound. The tree has a hollow at its base, resembling a cave or den. The tree is surrounded by various rocks and shrubs, creating a lush and vibrant environment. 
+
+In the background, there are several other trees scattered throughout the scene, adding depth and complexity to the landscape. The overall atmosphere is peaceful and whimsical, capturing the essence of a fantastical forest.
+rtsp://localhost:8554/cam4 | frame 0 | 8446.1 ms | 4281 MB | 29.9 W
+    Answer: The image depicts a serene, fantastical forest scene featuring a tree with a hole in its trunk, situated on a grassy hill. The tree is surrounded by various rocks and shrubs, giving the impression of a natural, undisturbed environment. The scene is bathed in sunlight, creating a warm and inviting atmosphere. The combination of the tree, rocks, and grass creates a peaceful and serene setting.
+rtsp://localhost:8554/cam4 | frame 1 | 8780.5 ms | 4281 MB | 29.7 W
+    Answer: The image depicts a serene, fantastical forest scene featuring a tree with a hole in its trunk, situated on a grassy hill. The tree appears to have a unique, fantastical appearance, with grass growing around its base and extending to the surrounding area. The hole in the tree's trunk is likely a resting place or entrance for small creatures or animals, enhancing the fantastical atmosphere of the scene.

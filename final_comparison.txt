@@ -1,0 +1,35 @@
+VLM-Edge: Baseline vs Quantized Benchmark
+
+Model: Moondream2
+GPU: NVIDIA GeForce RTX 3050 Laptop GPU (4 GB VRAM)
+Frames tested per run: 8
+
+ORIGINAL FP16 BASELINE
+Average latency: 8635.8 ms
+Average VRAM used: 4281 MB
+
+SELECTIVE 4-BIT QUANTIZATION
+Run 1 average latency: 2239.3 ms
+Run 2 average latency: 2059.7 ms
+Average quantized latency: 2149.5 ms
+Average latency reduction: 75.1%
+Approximate speedup: 4.02x
+Peak allocated GPU memory: 2420.7 MB
+
+QUANTIZATION CONFIGURATION
+Quantization: 4-bit NF4
+Compute dtype: float16 for quantized layers
+Model dtype: bfloat16
+Vision and region modules: skipped from quantization
+Quantized layers: 97
+
+CONCLUSION
+Selective 4-bit quantization successfully enabled Moondream2
+image inference on the tested GPU. Across two runs, average
+latency decreased by approximately 75.1% compared with the
+original baseline.
+
+Note: Memory measurements use different methods in the baseline
+and quantized benchmarks, so direct memory comparisons require
+a consistent measurement method. Results are from 8 frames
+per run and should be treated as preliminary benchmark results.

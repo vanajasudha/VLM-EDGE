@@ -1,0 +1,29 @@
+{
+  "status": "PASS",
+  "utc": "20261029T162400437910Z",
+  "offline": true,
+  "requests": [
+    {
+      "image": "cam1_0",
+      "question": "What is happening in this scene?",
+      "answer": "The scene features a large, majestic tree situated on a grassy hill or mound filled with green grass and moss. It has a hollow in its center, serving as a natural shelter or den for the tree, its roots spread out and anchoring it to the ground. Around the tree, there is a variety of rocks and stones scattered out the grassy area, adding to the natural and picturesque setting.",
+      "duration_ms": 10179.827640999974
+    },
+    {
+      "image": "cam2_1",
+      "question": "Is there a tree in this image?",
+      "answer": "Yes, there is a large tree in the image.",
+      "duration_ms": 1007.5989360000221
+    }
+  ],
+  "gpu": "NVIDIA GeForce RTX 3050 Laptop GPU",
+  "free_before_mib": 3303.4000005722046,
+  "total_mib": 4095.5,
+  "torch": "2.6.0+cu124",
+  "model_loads": 1,
+  "cache_reused": true,
+  "quantized_layers": 97,
+  "quantized_vision_region": [],
+  "device_map": "{'model': 0}",
+  "peak_allocated_mib": 2420.7099609375
+}
