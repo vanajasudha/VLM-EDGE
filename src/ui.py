@@ -4,71 +4,73 @@ import streamlit as st
 
 # Official Visual Design Tokens
 C = {
-    "bg": "#0B1220",
-    "sidebar": "#101B2D",
-    "card": "#162235",
-    "elevated": "#1B2B40",
-    "line": "#29384B",
-    "border": "#29384B",
-    "text": "#F1F5F9",
-    "muted": "#94A3B8",
-    "teal": "#22B8A8",
-    "teal_hover": "#36D1BE",
-    "blue": "#3B82F6",
-    "amber": "#F2B84B",
-    "red": "#F16D75",
-    "green": "#34C78A",
+    "bg": "#080F1D", "sidebar": "#101B2D", "card": "#111E31",
+    "elevated": "#17263B", "line": "#28394F", "border": "#28394F",
+    "text": "#F1F5FC", "muted": "#9AAAC0", "teal": "#20DCC3",
+    "teal_hover": "#50E8D4", "blue": "#42C8FF", "amber": "#E9B95E",
+    "red": "#E77C83", "green": "#54C99A",
 }
 
 CSS = """<style>
 .st-key-camera_grid_compact {max-width:960px;}
-.camera-source-row {display:grid; grid-template-columns:4.5rem minmax(0,1fr) 9rem; gap:.5rem; padding:.55rem 0; border-bottom:1px solid #263346; align-items:start;}
+.camera-source-row {display:grid; grid-template-columns:4.5rem minmax(0,1fr) 9rem; gap:.5rem; padding:.7rem 0; border-bottom:1px solid #28394F; align-items:start;}
 .camera-source-row span {overflow-wrap:anywhere; font-size:.85rem;}
-.camera-source-row .source-status {color:#AAB9CB;}
+.camera-source-row .source-status {color:#9AAAC0;}
 @media(max-width:700px) {
  .camera-source-row {grid-template-columns:4rem minmax(0,1fr);}
  .camera-source-row .source-status {grid-column:2;}
 }
-/* Native Streamlit owns geometry; only stable test IDs and our classes are used. */
-[data-testid="stAppViewContainer"] {background:#0B1220; color:#E6EDF7;}
-[data-testid="stSidebar"] {background:#111C2D; border-right:1px solid #263346;}
-[data-testid="stMainBlockContainer"] {max-width:1280px; padding-top:2rem; padding-bottom:1.2rem;}
-h1 {font-size:1.65rem !important; line-height:1.3 !important;}
-h2 {font-size:1.2rem !important;}
+/* Native Streamlit owns layout, routing and focus behavior. */
+[data-testid="stAppViewContainer"] {background:radial-gradient(ellipse at 78% -8%, rgba(32,220,195,.10) 0%, rgba(16,27,45,.42) 24%, #080F1D 62%); color:#F1F5FC;}
+[data-testid="stHeader"] {background:transparent;}
+[data-testid="stSidebar"] {background:rgba(13,25,42,.96); border-right:1px solid rgba(140,168,197,.13);}
+[data-testid="stMainBlockContainer"] {max-width:1420px; padding-top:2rem; padding-bottom:2rem;}
+h1 {font-size:2rem !important; line-height:1.2 !important; letter-spacing:-.045em; font-weight:680 !important;}
+h2 {font-size:1.25rem !important; letter-spacing:-.02em;}
 h3 {font-size:1rem !important;}
 p, label, .stMarkdown {overflow-wrap:anywhere;}
+[data-testid="stCaptionContainer"] {color:#9AAAC0;}
 [data-testid="stVerticalBlock"], [data-testid="stColumn"] {min-width:0;}
 [data-testid="stImage"] img {max-width:100%; height:auto;}
-/* Native page links are focusable anchors, not styled radio inputs. */
-.st-key-application_navigation [data-testid="stPageLink"] a {padding:.65rem .8rem; border-radius:.45rem; min-height:2.8rem; text-decoration:none;}
-.st-key-application_navigation [data-testid="stPageLink"] a:hover {background:#172A3A;}
-.st-key-application_navigation [data-testid="stPageLink"] a:focus-visible {outline:2px solid #68D6C8; outline-offset:2px;}
-.st-key-active_navigation [data-testid="stPageLink"] a {background:#15353B; color:#8CE1D4; border-left:3px solid #2DB8A5;}
-.sidebar-brand {padding:.5rem 0 1rem; margin-bottom:.8rem; border-bottom:1px solid #263346;}
-.brand-title {font-size:1.3rem; font-weight:700; letter-spacing:-.02em;}
-.brand-subtitle {color:#9BAABD; font-size:.8rem; margin-top:.2rem;}
-.brand-icon {display:none;}
-.hdr h1 {margin:0; font-size:1.65rem;}
-.hdr p {color:#9BAABD; margin:.3rem 0 1rem;}
-.kicker {display:none;}
-.pill {display:inline-block; font-size:.8rem; padding:.15rem .5rem; border-radius:.35rem; background:#1D2B3D; color:#AAB9CB;}
-.pill.ok {color:#79D8B0; background:#13372F;}
-.pill.warn {color:#E9C77F; background:#362E1E;}
-.camera-placeholder {aspect-ratio:16/9; background:#101A29; display:flex; flex-direction:column; align-items:center; justify-content:center; color:#9BAABD; border-radius:.4rem; gap:.35rem;}
-.camera-placeholder strong {color:#CFD8E5; font-size:.95rem;}
-.empty-state {background:#111C2D; border-radius:.5rem; padding:1.2rem; color:#AAB9CB;}
-.answer-panel {background:#122B30; border-left:3px solid #2DB8A5; border-radius:.4rem; padding:1rem; margin:.5rem 0;}
-.answer-label {font-size:.8rem; color:#77D8CA; font-weight:600;}
-.answer-text {white-space:pre-wrap; overflow-wrap:anywhere; margin-top:.4rem; line-height:1.6;}
-.section-title {font-size:1rem; font-weight:600; margin:.8rem 0;}
-.callout {padding:.8rem; background:#142437; border-radius:.4rem;}
-.card {padding:.8rem; background:#142437; border-radius:.4rem;}
-.lbl, .sub {color:#9BAABD; font-size:.8rem;} .val {font-size:1.4rem;}
+.st-key-application_navigation [data-testid="stPageLink"] a {padding:.65rem .8rem; border-radius:.7rem; min-height:2.8rem; text-decoration:none; transition:background-color .16s ease,color .16s ease;}
+.st-key-application_navigation [data-testid="stPageLink"] a:hover {background:#172A3A; color:#F1F5FC;}
+.st-key-application_navigation [data-testid="stPageLink"] a:focus-visible {outline:2px solid #20DCC3; outline-offset:2px;}
+.st-key-active_navigation [data-testid="stPageLink"] a {background:rgba(32,220,195,.11); color:#77EBDD; border-left:3px solid #20DCC3;}
+.sidebar-brand {padding:.65rem .2rem 1.15rem; margin-bottom:.9rem; border-bottom:1px solid rgba(140,168,197,.14);}
+.brand-title {font-size:1.35rem; font-weight:720; letter-spacing:-.035em;}
+.brand-subtitle {color:#9AAAC0; font-size:.77rem; margin-top:.25rem; letter-spacing:.02em;}
+.brand-icon {float:left; display:grid; place-items:center; width:2.25rem; height:2.25rem; margin:.1rem .7rem 0 0; border-radius:.7rem; background:rgba(32,220,195,.12); color:#20DCC3; font-weight:800;}
+.hdr h1 {margin:0; font-size:1.85rem;}
+.hdr p {color:#9AAAC0; margin:.35rem 0 1.25rem;}
+.kicker {font-size:.68rem; letter-spacing:.16em; text-transform:uppercase; color:#5DDBCB; margin:0 0 .45rem; font-weight:700;}
+.page-subtitle {color:#9AAAC0; font-size:.98rem; margin:-.45rem 0 1.35rem; max-width:58rem; line-height:1.55;}
+.pill {display:inline-block; font-size:.75rem; padding:.18rem .58rem; border:1px solid rgba(154,170,192,.16); border-radius:99px; background:rgba(154,170,192,.08); color:#AAB9CB; white-space:nowrap;}
+.pill.ok {color:#75D8B3; background:rgba(37,151,108,.14); border-color:rgba(84,201,154,.25);}
+.pill.warn {color:#E9C77F; background:rgba(180,133,42,.13); border-color:rgba(233,185,94,.22);}
+.camera-placeholder {aspect-ratio:16/9; background:linear-gradient(145deg,#101B2D,#0A1423); display:flex; flex-direction:column; align-items:center; justify-content:center; color:#9AAAC0; border-radius:.75rem; gap:.35rem; border:1px solid rgba(140,168,197,.12);}
+.empty-state {background:rgba(17,30,49,.8); border:1px solid rgba(140,168,197,.14); border-radius:1rem; padding:1.2rem; color:#9AAAC0;}
+.answer-panel {background:rgba(15,37,48,.82); border:1px solid rgba(32,220,195,.2); border-left:3px solid #20DCC3; border-radius:.9rem; padding:1.1rem 1.2rem; margin:.7rem 0; box-shadow:0 10px 30px rgba(0,0,0,.14);}
+.answer-label {font-size:.76rem; letter-spacing:.07em; text-transform:uppercase; color:#77EBDD; font-weight:650;}
+.answer-text {white-space:pre-wrap; overflow-wrap:anywhere; word-break:normal; margin-top:.55rem; line-height:1.75; color:#E6EDF7;}
+.section-title {font-size:1rem; font-weight:650; margin:.8rem 0;}
+.callout,.card {padding:1rem 1.1rem; background:rgba(17,30,49,.72); border:1px solid rgba(140,168,197,.13); border-radius:.9rem; box-shadow:0 10px 30px rgba(0,0,0,.12);}
+.lbl, .sub {color:#9AAAC0; font-size:.8rem;} .val {font-size:1.45rem; font-weight:650; letter-spacing:-.025em; margin:.35rem 0;}
+[data-testid="stVerticalBlockBorderWrapper"] {background:linear-gradient(145deg,rgba(20,37,58,.88),rgba(12,24,40,.88)); border-color:rgba(140,168,197,.18); border-radius:1rem; box-shadow:0 14px 36px rgba(0,0,0,.22); transition:border-color .18s ease,transform .18s ease,box-shadow .18s ease;}
+[data-testid="stVerticalBlockBorderWrapper"]:hover {border-color:rgba(32,220,195,.28); box-shadow:0 16px 38px rgba(0,0,0,.25),0 0 24px rgba(32,220,195,.035); transform:translateY(-1px);}
+[data-testid="stImage"] img {border-radius:.72rem; border:1px solid rgba(140,168,197,.13);}
+[data-testid="stMetric"] {background:linear-gradient(145deg,rgba(20,37,58,.9),rgba(12,24,40,.9)); padding:1rem 1.1rem; border:1px solid rgba(140,168,197,.16); border-radius:.9rem; box-shadow:0 12px 30px rgba(0,0,0,.16); min-height:7.2rem;}
+[data-testid="stMetricLabel"] {color:#9AAAC0;}
+[data-testid="stMetricValue"] {color:#F1F5FC; letter-spacing:-.035em;}
+.stSelectbox [data-baseweb="select"] > div,.stTextInput [data-baseweb="input"] {background-color:rgba(8,15,29,.62); border-color:rgba(140,168,197,.2); border-radius:.7rem;}
+.stButton > button[kind="primary"] {background:#20DCC3; color:#07151C; border:0; font-weight:650;}
+.stButton > button[kind="primary"]:hover {background:#50E8D4; border:0; color:#07151C;}
+.stButton > button {border-radius:.7rem; transition:background-color .16s ease,border-color .16s ease;}
+[data-testid="stDataFrame"] {border:1px solid rgba(140,168,197,.15); border-radius:.8rem; overflow:hidden;}
 @media(max-width:700px) {
- [data-testid="stMainBlockContainer"] {padding:4.5rem 1rem 1.2rem;}
+ [data-testid="stMainBlockContainer"] {padding:1.2rem 1rem 1.2rem;}
  [data-testid="stHorizontalBlock"] {flex-wrap:wrap;}
  [data-testid="stHorizontalBlock"] > [data-testid="stColumn"] {flex:1 1 100% !important; width:100% !important;}
- h1 {font-size:1.4rem !important;}
+ h1 {font-size:1.5rem !important;}
 }
 </style>"""
 
@@ -81,13 +83,12 @@ def inject():
 def header(title: str, subtitle: str = "", kicker: str = "Industrial AI Operations"):
     """Render a clean industrial page header."""
     st.markdown(
-        f'<div class="hdr">'
-        f'  <div class="kicker"><span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:{C["teal"]};"></span>{escape(kicker)}</div>'
-        f'  <h1>{escape(title)}</h1>'
-        f'  <p>{escape(subtitle)}</p>'
-        f'</div>',
+        f'<div class="kicker">{escape(kicker)}</div>',
         unsafe_allow_html=True,
     )
+    st.header(title)
+    if subtitle:
+        st.markdown(f'<p class="page-subtitle">{escape(subtitle)}</p>', unsafe_allow_html=True)
 
 
 def pill(text: str, kind: str = "off") -> str:

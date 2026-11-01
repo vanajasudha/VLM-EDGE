@@ -1,7 +1,7 @@
 logLevel: warn
 rtspAddress: 127.0.0.1:8554
 # Current MediaMTX configuration key; keep publisher/readers on TCP.
-rtspTransports: [tcp]
+protocols: [tcp]
 rtmp: no
 hls: no
 webrtc: no
