@@ -8,6 +8,14 @@ from datetime import datetime, timezone
 from threading import Event, Lock, Thread
 from time import monotonic
 
+from src.camera_diagnostics import check_server
+
+
+class CaptureError(RuntimeError):
+    def __init__(self, kind, message):
+        super().__init__(message)
+        self.kind = kind
+
 
 @dataclass(frozen=True)
 class ReceivedFrame:
@@ -28,6 +36,7 @@ class CameraState:
     reconnects: int = 0
     connections: int = 0
     last_error: str | None = None
+    failure_kind: str | None = None
     _buffer: deque = field(default_factory=lambda: deque(maxlen=2), repr=False)
     _lock: Lock = field(default_factory=Lock, repr=False)
     _stop: Event = field(default_factory=Event, repr=False)
@@ -77,6 +86,7 @@ class CameraCaptureManager:
             with state._lock:
                 state._buffer.clear()
                 state.status, state.message, state.last_error = "connecting", "Connecting to RTSP stream", None
+                state.failure_kind = None
             state._stop.clear()
             state._thread = Thread(target=self._run, args=(state,), name=f"vlm-edge-{camera_id}", daemon=True)
             state._thread.start()
@@ -120,6 +130,7 @@ class CameraCaptureManager:
                 "message": "No fresh frames received" if status == "stale" else state.message,
                 "frames_received": state.frames_received, "reconnects": state.reconnects,
                 "connections": state.connections, "last_error": state.last_error,
+                "failure_kind": "stale_frame" if stale else state.failure_kind,
                 "frame": pixels.copy() if hasattr(pixels, "copy") else pixels,
                 "received_monotonic": packet.received_monotonic if packet else None,
                 "received_at_utc": packet.received_at_utc if packet else None,
@@ -147,7 +158,16 @@ class CameraCaptureManager:
         return cv2.VideoCapture()
 
     def _open(self, state):
-        import cv2
+        # A bounded transport preflight distinguishes a missing server from decoder/open failures.
+        # Injected capture factories remain network-free for unit tests.
+        if self._capture_factory is None:
+            server = check_server(state.url, timeout=min(.8, self._open_timeout_ms / 1000))
+            if not server["reachable"]:
+                raise CaptureError("server_unavailable", "RTSP server unavailable; start MediaMTX and check network routing")
+        try:
+            import cv2
+        except ImportError:
+            raise CaptureError("decoder_unavailable", "OpenCV decoder unavailable in this Python environment") from None
         capture = self._make_capture()
         try:
             # These are open-only FFmpeg properties; set() before open is ineffective.
@@ -156,7 +176,7 @@ class CameraCaptureManager:
                 cv2.CAP_PROP_READ_TIMEOUT_MSEC, self._read_timeout_ms,
             ])
             if not opened or (hasattr(capture, "isOpened") and not capture.isOpened()):
-                raise RuntimeError(f"{state.camera_id}: RTSP stream unavailable")
+                raise CaptureError("endpoint_unavailable", "RTSP endpoint could not be opened; check publisher, path and codec")
             return capture
         except Exception:
             capture.release()
@@ -175,7 +195,7 @@ class CameraCaptureManager:
                     while not state._stop.is_set():
                         ok, frame = capture.read()
                         if not ok or frame is None:
-                            raise RuntimeError("RTSP frame read failed")
+                            raise CaptureError("frame_read_failed", "Stream stopped delivering decoded frames; check publisher and decoder")
                         received, utc = self._clock(), self._wall_clock()
                         with state._lock:
                             if state._stop.is_set():
@@ -185,11 +205,13 @@ class CameraCaptureManager:
                             state._buffer.append(ReceivedFrame(pixels, received, utc, state.frames_received,
                                                                state.connections))
                             state.status, state.message, state.last_error = "connected", "Receiving RTSP frames", None
+                            state.failure_kind = None
                 except Exception as exc:
                     if not state._stop.is_set():
                         with state._lock:
                             state._buffer.clear()
                             state.reconnects += 1
+                            state.failure_kind = getattr(exc, "kind", "capture_failure")
                             state.status, state.message = "reconnecting", "Stream unavailable; retrying"
                             # Do not expose RTSP credentials if a backend includes its URL.
                             state.last_error = str(exc).replace(state.url, state.camera_id)

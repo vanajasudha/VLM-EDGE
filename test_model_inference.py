@@ -212,3 +212,21 @@ def test_experiment_revision_pins_model_and_tokenizer(fake_loader):
     loader(revision=revision)
     assert model_factory.call_args.kwargs["revision"] == revision
     assert tokenizer_factory.call_args.kwargs["revision"] == revision
+
+
+def test_deployment_revision_is_pinned_for_model_and_tokenizer(fake_loader, monkeypatch):
+    loader, model_factory, tokenizer_factory, _ = fake_loader
+    revision = "5d6c926f44e26b07957b0dd315bbedcb4c17a5fe"
+    monkeypatch.setenv("VLM_EDGE_MODEL_REVISION", revision)
+    loader()
+    assert model_factory.call_args.kwargs["revision"] == revision
+    assert tokenizer_factory.call_args.kwargs["revision"] == revision
+    assert model_factory.call_args.kwargs["local_files_only"] is True
+
+
+def test_explicit_evaluation_revision_overrides_deployment_default(fake_loader, monkeypatch):
+    loader, model_factory, tokenizer_factory, _ = fake_loader
+    monkeypatch.setenv("VLM_EDGE_MODEL_REVISION", "deployment-default")
+    loader(revision="explicit-test-revision")
+    assert model_factory.call_args.kwargs["revision"] == "explicit-test-revision"
+    assert tokenizer_factory.call_args.kwargs["revision"] == "explicit-test-revision"

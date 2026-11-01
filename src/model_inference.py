@@ -1,6 +1,7 @@
 """Local Moondream2 inference for the Streamlit dashboard."""
 
 from pathlib import Path
+import os
 from hashlib import sha256
 from io import BytesIO
 from threading import Lock
@@ -41,6 +42,9 @@ def load_moondream(revision=None):
         from bitsandbytes.nn import Linear4bit
         from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 
+        # Set before process startup; changing the environment requires a restart.
+        if revision is None:
+            revision = os.environ.get("VLM_EDGE_MODEL_REVISION") or None
         revision_args = {"revision": revision} if revision is not None else {}
         config = BitsAndBytesConfig(
             load_in_4bit=True,

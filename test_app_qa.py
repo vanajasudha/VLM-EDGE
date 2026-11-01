@@ -15,7 +15,17 @@ def dashboard(monkeypatch):
     inference = Mock(return_value={"answer": "Fresh generated answer", "duration_ms": 123.45})
     monkeypatch.setattr(model_inference, "load_moondream", loader)
     monkeypatch.setattr(model_inference, "infer", inference)
-    at = AppTest.from_file(str(ROOT / "app.py"), default_timeout=20).run()
+    # Saved-image tools remain independently supported; the main Assistant is live-first.
+    script = """
+import streamlit as st
+from pathlib import Path
+from src import data_loader
+from src.views.ai_assistant_view import render_ai_assistant
+page = st.sidebar.radio("Page", ["Overview", "Ask a Question"])
+if page == "Ask a Question":
+    render_ai_assistant(data_loader.list_frames(Path("test_frames").resolve()))
+"""
+    at = AppTest.from_string(script, default_timeout=20).run()
     at.sidebar.radio[0].set_value("Ask a Question").run()
     assert not at.exception
     return at, loader, inference

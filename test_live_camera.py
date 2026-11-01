@@ -120,7 +120,7 @@ def dashboard(monkeypatch, fake_model):
     manager = FakeManager()
     monkeypatch.setattr(live_camera_ui, "get_camera_manager", lambda: manager)
     at = AppTest.from_file(str(ROOT / "app.py"), default_timeout=20).run()
-    at.sidebar.radio[0].set_value("Cameras").run()
+    at.switch_page("src/pages/assistant.py").run()
     assert not at.exception
     return at, manager, fake_model
 
@@ -135,6 +135,7 @@ def test_preview_never_calls_model_and_labels_demo(dashboard):
     loader.assert_not_called()
     assert "Demo RTSP publisher" in text(at)
     assert at.button(key="ask_live").disabled
+    at.switch_page("src/pages/monitoring.py").run()
     at.button(key="start_streams").click().run()
     assert manager.started == list(manager.camera_ids)
 
@@ -188,3 +189,22 @@ def test_live_config_requires_four_streams_and_explicit_source_kind(tmp_path):
     test_path.write_text(json.dumps(config))
     with pytest.raises(ValueError, match="exactly"):
         live_camera.read_camera_config(test_path)
+
+
+def test_windows_bom_camera_config_is_accepted(tmp_path):
+    config = json.loads((ROOT / "config/cameras.json").read_text())
+    path = tmp_path / "cameras.json"
+    path.write_text(json.dumps(config), encoding="utf-8-sig")
+    cameras, stale = live_camera.read_camera_config(path)
+    assert len(cameras) == 4 and stale == 3
+
+
+@pytest.mark.parametrize("bad_url", ["rtsp://host:bad/cam1", "rtsp://host:70000/cam1", "rtsp://host:0/cam1", "http://host/cam1"])
+def test_bad_camera_port_or_scheme_is_rejected_without_exposing_endpoint(tmp_path, bad_url):
+    config = json.loads((ROOT / "config/cameras.json").read_text())
+    config["cameras"]["cam1"]["url"] = bad_url
+    path = tmp_path / "cameras.json"
+    path.write_text(json.dumps(config))
+    with pytest.raises(ValueError, match="cam1.*valid RTSP") as exc:
+        live_camera.read_camera_config(path)
+    assert bad_url not in str(exc.value)

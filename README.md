@@ -2,7 +2,7 @@
 
 A local multi-camera visual question-answering prototype for a B.Tech final-year project, using pretrained Moondream2 and selective 4-bit NF4 quantization on a memory-constrained NVIDIA GPU.
 
-**Checkout status (31 October 2026):** application startup is currently blocked: `src/live_camera_ui.py` is empty, but `app.py` imports `render_live_panel` from it. This preparation pass does not repair application code. Historical verification records describe an earlier working state; they do not establish that this checkout runs. See [GitHub preparation audit](GITHUB_PREPARATION.md) for current checks and release blockers.
+**Checkout status (31 October 2026):** the five-page dashboard starts and has been checked with CPU/mock tests and an offline browser at desktop and phone widths. Live RTSP/GPU execution was not repeated during this redesign. See [camera integration and startup report](CAMERA_INTEGRATION_REPORT.md) and [dashboard verification](DASHBOARD_REDESIGN.md) for current checks and [the earlier repository audit](GITHUB_PREPARATION.md) for historical preparation findings.
 
 ## Overview and motivation
 
@@ -17,10 +17,10 @@ The problem is to capture multiple camera streams while fitting a vision-languag
 - Process-cached local Moondream2 loading and serialized image encoding/answer generation in `src/model_inference.py`.
 - Linux demo process management for MediaMTX, four looping FFmpeg publishers and optional Streamlit startup.
 - Benchmark CSV readers, binary/count metrics, manifest validation, an approval-gated evaluation runner and a warehouse annotation tool.
-- Earlier six-page dashboard components remain in `src/views/` and `src/ui.py`; current `app.py` does not route to them.
+- Five-page navigation: Overview, Live Monitoring, AI Assistant, Performance and Settings. Camera previews refresh independently; the live Assistant uses the existing latest-frame backend. Saved-image and evaluation tools remain in source without adding them to the monitoring navigation.
 - Tests include mocks, Streamlit AppTest, concurrency, stale-frame handling, metric policies and annotation workflows. Current test outcomes are recorded in the audit, not inferred from earlier pass counts.
 
-**Incomplete:** the imported live UI entrypoint is missing, a genuine warehouse dataset is absent, and accuracy/counting performance has not been measured. A clean installation and current live/GPU execution are unverified.
+**Incomplete:** a genuine warehouse dataset is absent, and accuracy/counting performance has not been measured. A clean installation and current live/GPU execution are unverified.
 
 ## System architecture
 
@@ -35,10 +35,10 @@ flowchart LR
     H[Existing local model cache] --> N[Selective NF4 Moondream2]
     L --> N
     N --> A[Generated answer and latency]
-    A --> U[Streamlit UI entrypoint: currently missing]
+    A --> U[Five-page Streamlit dashboard]
 ```
 
-This diagram describes the implemented backend and intended UI connection, not a current successful startup. Four camera decoders do not imply four concurrent model calls.
+This diagram describes the application architecture; current live/GPU operation still requires verification on the target host. Four camera decoders do not imply four concurrent model calls.
 
 ## Technology stack
 
@@ -59,23 +59,24 @@ The configured model identifier is `vikhyatk/moondream2`. The inference code enc
 
 The loader configures `load_in_4bit=True`, NF4 quantization, FP16 quantized compute, BF16 model dtype, `device_map="auto"`, and skips `vision` and `region`. NF4 reduces storage for selected linear weights; it does not make every parameter or activation four-bit. A runtime check rejects quantized vision layers. Historical evidence recorded 97 four-bit layers and no quantized vision/region layers. These are observations from that run, not guarantees for any model revision.
 
-Loading requires locally cached files (`local_files_only=True`) and uses `trust_remote_code=True`. Review model code and licensing before provisioning a cache. The dashboard loader does not pin a revision by default; the evaluation runner pins `5d6c926f44e26b07957b0dd315bbedcb4c17a5fe`. Cache contents are therefore part of application reproducibility. No automatic weight download or provisioning command is supplied here because this preparation did not validate one.
+Loading requires locally cached files (`local_files_only=True`) and uses `trust_remote_code=True`. Review model code and licensing before provisioning a cache. The dashboard accepts `VLM_EDGE_MODEL_REVISION` before startup; unset, it retains cached-main behavior. Explicit loader revisions take precedence; the evaluation runner pins `5d6c926f44e26b07957b0dd315bbedcb4c17a5fe`. Set the deployment revision and cache location before launch and restart after changing them. Cache contents are part of application reproducibility. No automatic weight download or provisioning command is supplied here because this preparation did not validate one.
 
 ## Repository structure
 
 ```text
-app.py                         Current live-page entrypoint (blocked import)
+app.py                         Five-page dashboard and sidebar navigation
 src/
   camera_capture.py            Threaded capture and freshness handling
   live_camera.py               Camera configuration and latest-frame Q&A
-  live_camera_ui.py            EMPTY: missing UI implementation
+  live_camera_ui.py            Shared previews, live Assistant and request history
   model_inference.py           Cached selective NF4 inference and locking
   benchmark_metrics.py         Latency, binary and counting metrics
   data_loader.py               Saved-frame and benchmark CSV loading
   evaluation_manifest.py       Labelled manifest validation
   evaluation_runner.py         Planned/approved evaluation execution
   warehouse_annotation.py      Annotation and provenance support
-  ui.py, views/                Earlier dashboard components
+  ui.py, views/                Central CSS and dashboard views
+  pages/                       Thin native Streamlit page entrypoints
 config/
   cameras.json                 Four local RTSP endpoints
   mediamtx-demo.yml             Loopback-only TCP RTSP server configuration
@@ -86,7 +87,6 @@ data/warehouse_pilot/          Empty pilot scaffold, guides and quality records
 test_frames/                   Twelve byte-identical demo JPEGs; rights review needed
 sample_videos/                 cam1.mp4 ... cam4.mp4 (local, Git-ignored)
 verification/                  Historical live-demo JSON and submitted image
-tests/                         Present directory; tests are in root test_*.py
 start_demo.sh, stop_demo.sh     Linux demo wrappers
 requirements.txt, pytest.ini   Direct dependency pins and test discovery config
 benchmark_baseline.py           Historical RTSP FP16 benchmark
@@ -99,7 +99,7 @@ EVALUATION.md                   Manifest schema and evaluation policy
 BENCHMARK_PROTOCOL.md           Controlled benchmark preparation
 ```
 
-Backup `.orig` files, virtual environments and runtime logs remain on disk but are ignored. The separate Qwen/AWQ script is not part of the Moondream2 workflow and its `awq` dependency is intentionally outside the main requirements.
+Virtual environments and retained runtime evidence are ignored. Disposable backups, caches and audit/browser temp directories were removed during cleanup. The separate Qwen/AWQ script is not part of the Moondream2 workflow and its `awq` dependency is intentionally outside the main requirements.
 
 ## Prerequisites and hardware
 
@@ -108,6 +108,8 @@ The historically exercised target is WSL2 Ubuntu, Python 3.11, CUDA-enabled PyTo
 Install or provide Python 3.11 with venv support, a compatible NVIDIA Windows/WSL driver, Git, FFmpeg/ffprobe with libx264, and MediaMTX. Confirm `nvidia-smi`, `ffmpeg -version` and `ffprobe -version` in WSL before attempting a demo. MediaMTX is an external executable; its version is not pinned in this repository. The lifecycle helper uses Linux `/proc`, `fcntl` and process groups and is not a native Windows launcher.
 
 ## Environment setup and dependencies
+
+For a clean install on the GPU laptop, use [DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md). It separates current-host checks from new-laptop verification.
 
 Run commands from the actual repository root in WSL; the historical location was `~/vlm-edge`. The Windows working copy used for preparation is a different location. Do not reuse copied virtual environments whose interpreters reference another machine.
 
@@ -134,7 +136,7 @@ python -m pip check
 
 ## Starting the application
 
-**Current blocker:** restore the intended `render_live_panel` implementation through a separately reviewed application repair before expecting a working dashboard. The commands below match repository scripts, but were not demonstrated successfully against this checkout.
+The entrypoint now opens Overview. The five navigation pages use the existing capture manager and inference cache. A local HTTP/browser startup was verified; target WSL/GPU startup still depends on a valid environment, local model cache and external streams.
 
 Dashboard only (external streams must already be available):
 
@@ -143,7 +145,7 @@ source venv/bin/activate
 python -m streamlit run app.py
 ```
 
-Stop with Ctrl+C. Once the missing UI is restored, select a camera with a fresh frame, type a nonempty question, and explicitly submit it. The backend validates freshness, loads the cached model, acquires the inference lock, takes the latest frame, converts it to RGB and generates an answer. No automatic inference on every decoded frame is implemented. Only one dashboard process should own the model on a 4 GiB GPU.
+Stop with Ctrl+C. Start capture in Live Monitoring, then open AI Assistant, select a camera with a fresh frame, type a nonempty question, and click Ask AI. The backend validates freshness, loads the cached model, acquires the inference lock, takes the latest frame, converts it to RGB and generates an answer. No automatic inference on every decoded frame is implemented. Only one dashboard process should own the model on a 4 GiB GPU.
 
 ### Camera demo lifecycle
 
@@ -156,9 +158,9 @@ venv/bin/python tools/demo_runtime.py status
 bash stop_demo.sh
 ```
 
-Replace `/actual/path/to/mediamtx` with the installed executable. `start_demo.sh` launches MediaMTX, four publishers and the dashboard on port 8501. Dashboard binding is `0.0.0.0`; use an appropriate local network environment. Logs/PID records are under `.runtime/`. Startup failure may leave earlier components running; use `bash stop_demo.sh` for processes owned by this helper. It does not stop unrelated processes.
+Replace `/actual/path/to/mediamtx` with the installed executable. `start_demo.sh` launches MediaMTX, four publishers and the dashboard on port 8501. Dashboard binding is loopback `127.0.0.1`. Logs/PID records are under `.runtime/`. Startup preflight checks tools/sources/ports first; a later failure stops only processes newly created by that attempt. Use `bash stop_demo.sh` for helper-owned processes. It does not stop unrelated processes.
 
-To start streams without the blocked dashboard:
+To start streams without the dashboard:
 
 ```bash
 venv/bin/python tools/demo_runtime.py start
@@ -166,14 +168,12 @@ venv/bin/python tools/demo_runtime.py status
 venv/bin/python tools/demo_runtime.py stop
 ```
 
-The helper's verified-in-source FFmpeg command pattern, shown for cam1, is:
+The helper probes each local codec. The current H.264 files use stream copy; other codecs retain the libx264 fallback. The source-checked H.264 command pattern for cam1 is:
 
 ```bash
 ffmpeg -nostdin -hide_banner -loglevel warning -re -stream_loop -1 \
-  -i sample_videos/cam1.mp4 -an -c:v libx264 -preset ultrafast \
-  -tune zerolatency -threads 1 -pix_fmt yuv420p -g 30 -keyint_min 30 \
-  -sc_threshold 0 -bf 0 -f rtsp -rtsp_transport tcp \
-  rtsp://127.0.0.1:8554/cam1
+  -i sample_videos/cam1.mp4 -map 0:v:0 -an -c:v copy \
+  -f rtsp -rtsp_transport tcp rtsp://127.0.0.1:8554/cam1
 ```
 
 This requires MediaMTX already running with `config/mediamtx-demo.yml`. The helper uses this pattern for all four cameras. Do not run duplicate publishers while the helper owns them. Configured endpoints are `rtsp://127.0.0.1:8554/cam1` through `/cam4`. Probe each independently:
@@ -224,12 +224,12 @@ HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 PYTHONDONTWRITEBYTECODE=1 \
   venv/bin/python -m pytest -q -p no:cacheprovider -p tools.pytest_cpu_guard
 ```
 
-The guard rejects real model/tokenizer loads and CUDA initialization. Do not execute standalone benchmark, quantization or GPU smoke scripts as part of repository preparation. Earlier saved-Q&A smoke tooling targets an earlier dashboard and needs review before reuse. Current preparation results and environment differences are in [GITHUB_PREPARATION.md](GITHUB_PREPARATION.md); old test counts are historical.
+The guard rejects real model/tokenizer loads and CUDA initialization. Do not execute standalone benchmark, quantization or GPU smoke scripts as part of repository preparation. Earlier saved-Q&A smoke tooling targets an earlier dashboard and needs review before reuse. Current UI results and environment differences are in [DASHBOARD_REDESIGN.md](DASHBOARD_REDESIGN.md); earlier repository preparation and test counts are historical.
 
 ## Known limitations
 
-- Missing live UI entrypoint blocks the current application; retained older views do not resolve that import.
-- Model cache provisioning, default revision pinning and a fresh environment remain reproducibility gaps.
+- Current browser verification used offline streams; real camera-to-answer operation must be rechecked on the intended GPU host.
+- Model cache provisioning and a fresh environment still require target-laptop verification; use an explicit deployment revision.
 - Capture is multi-camera, but inference is synchronous and serialized within one process. Separate processes can allocate separate models; there is no cross-process dashboard lock or cancellation.
 - Receipt timestamps/freshness are not sensor capture timestamps or full network latency measurements.
 - No genuine permitted warehouse dataset, human-verified labels or measured warehouse accuracy exists.
@@ -239,7 +239,7 @@ The guard rejects real model/tokenizer loads and CUDA initialization. Do not exe
 
 ## Future improvements
 
-Restore and verify the intended UI, pin/review cached model code, validate a clean Python 3.11 installation, document exact external tool versions, obtain permitted representative data, complete independent annotations, and run approved controlled accuracy/latency/memory experiments. Longer-term work may assess queueing, operational robustness and deployment hardware; none is presented as implemented evidence.
+Verify the redesigned UI with real streams and GPU inference, pin/review cached model code, validate a clean Python 3.11 installation, document exact external tool versions, obtain permitted representative data, complete independent annotations, and run approved controlled accuracy/latency/memory experiments. Longer-term work may assess queueing, operational robustness and deployment hardware; none is presented as implemented evidence.
 
 ## Academic attribution and redistribution
 

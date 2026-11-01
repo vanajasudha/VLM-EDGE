@@ -72,3 +72,6 @@ Thumbs.db
 Desktop.ini
 *.swp
 *.swo
+
+# Private cross-environment camera endpoints
+config/cameras.local.json

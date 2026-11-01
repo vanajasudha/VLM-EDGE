@@ -9,6 +9,7 @@ import time
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
+from src.camera_diagnostics import safe_rtsp_url
 from src.camera_capture import CameraCaptureManager
 from src.live_camera import ask_latest, read_camera_config
 
@@ -30,7 +31,8 @@ def main():
     args = parser.parse_args()
     cameras, stale = read_camera_config()
     manager = CameraCaptureManager({k: v['url'] for k, v in cameras.items()},
-                                   stale_after_seconds=stale)
+                                   stale_after_seconds=stale,
+                                   source_kinds={k: v["source_kind"] for k, v in cameras.items()})
     report = {'started_utc': datetime.now(timezone.utc).isoformat(), 'streams': {}}
     try:
         manager.start_many(manager.camera_ids)
@@ -46,7 +48,7 @@ def main():
         for c in manager.camera_ids:
             s = manager.latest_valid(c)
             assert len(digests[c]) > 1, f'{c}: decoded pixels did not change'
-            report['streams'][c] = {'url': cameras[c]['url'], 'distinct_decoded_frames': len(digests[c]),
+            report['streams'][c] = {'url': safe_rtsp_url(cameras[c]['url']), 'distinct_decoded_frames': len(digests[c]),
                                     'frames_received': s['frames_received'], 'shape': list(s['frame'].shape),
                                     'age_seconds': s['age_seconds']}
         print('PASS: all four RTSP streams deliver changing decoded frames', flush=True)
