@@ -1,0 +1,263 @@
+{
+ "totals": {
+  "images": 5097,
+  "annotations": 151428
+ },
+ "annotations_per_class": {
+  "small_load_carrier": 22151,
+  "forklift": 598,
+  "pallet": 120445,
+  "stillage": 5407,
+  "pallet_truck": 2827
+ },
+ "readme_claims": {
+  "images_total": 37988,
+  "images_annotated": 5593,
+  "annotations": 152421
+ },
+ "readme_discrepancy": {
+  "images_annotated": -496,
+  "annotations": -993
+ },
+ "duplicate_image_ids": 0,
+ "duplicate_file_names": 0,
+ "duplicate_annotation_ids": 0,
+ "annotation_issues": {
+  "polygon_only_annotation": 48
+ },
+ "per_subset": {
+  "sub1": {
+   "official_split": "val",
+   "images": 1075,
+   "annotations": 24763,
+   "images_without_annotations": 0,
+   "annotations_per_class": {
+    "small_load_carrier": 8911,
+    "forklift": 5,
+    "pallet": 13275,
+    "stillage": 1978,
+    "pallet_truck": 594
+   },
+   "images_with_class": {
+    "small_load_carrier": 438,
+    "forklift": 5,
+    "pallet": 998,
+    "stillage": 528,
+    "pallet_truck": 403
+   }
+  },
+  "sub2": {
+   "official_split": "train",
+   "images": 1070,
+   "annotations": 41681,
+   "images_without_annotations": 0,
+   "annotations_per_class": {
+    "small_load_carrier": 4299,
+    "forklift": 138,
+    "pallet": 34016,
+    "stillage": 2997,
+    "pallet_truck": 231
+   },
+   "images_with_class": {
+    "small_load_carrier": 152,
+    "forklift": 115,
+    "pallet": 1022,
+    "stillage": 438,
+    "pallet_truck": 182
+   }
+  },
+  "sub3": {
+   "official_split": "train",
+   "images": 873,
+   "annotations": 26627,
+   "images_without_annotations": 0,
+   "annotations_per_class": {
+    "small_load_carrier": 2281,
+    "forklift": 188,
+    "pallet": 23448,
+    "stillage": 402,
+    "pallet_truck": 308
+   },
+   "images_with_class": {
+    "small_load_carrier": 337,
+    "forklift": 166,
+    "pallet": 850,
+    "stillage": 133,
+    "pallet_truck": 120
+   }
+  },
+  "sub4": {
+   "official_split": "val",
+   "images": 1202,
+   "annotations": 39729,
+   "images_without_annotations": 0,
+   "annotations_per_class": {
+    "small_load_carrier": 0,
+    "forklift": 119,
+    "pallet": 39022,
+    "stillage": 29,
+    "pallet_truck": 559
+   },
+   "images_with_class": {
+    "small_load_carrier": 0,
+    "forklift": 96,
+    "pallet": 1183,
+    "stillage": 11,
+    "pallet_truck": 303
+   }
+  },
+  "sub5": {
+   "official_split": "train",
+   "images": 877,
+   "annotations": 18628,
+   "images_without_annotations": 0,
+   "annotations_per_class": {
+    "small_load_carrier": 6660,
+    "forklift": 148,
+    "pallet": 10684,
+    "stillage": 1,
+    "pallet_truck": 1135
+   },
+   "images_with_class": {
+    "small_load_carrier": 175,
+    "forklift": 67,
+    "pallet": 674,
+    "stillage": 1,
+    "pallet_truck": 494
+   }
+  }
+ },
+ "split_summary": {
+  "train": {
+   "images": 2820,
+   "groups": 15,
+   "forklift_positive_images": 348,
+   "forklift_positive_fraction": 0.12340425531914893,
+   "pallet_negative_images": 274,
+   "pallet_boxes_per_image": {
+    "p50": 14,
+    "p90": 58,
+    "p99": 152,
+    "max": 332
+   },
+   "images_with_more_than_20_pallet_boxes": 1112,
+   "images_countable_min_area_rule": 936
+  },
+  "val": {
+   "images": 2277,
+   "groups": 4,
+   "forklift_positive_images": 101,
+   "forklift_positive_fraction": 0.04435660957400088,
+   "pallet_negative_images": 96,
+   "pallet_boxes_per_image": {
+    "p50": 16,
+    "p90": 44,
+    "p99": 155,
+    "max": 345
+   },
+   "images_with_more_than_20_pallet_boxes": 900,
+   "images_countable_min_area_rule": 502
+  }
+ },
+ "box_size_buckets_coco_pixels": {
+  "small_load_carrier": {
+   "medium": 11595,
+   "small": 6721,
+   "large": 3835
+  },
+  "forklift": {
+   "medium": 107,
+   "large": 489,
+   "small": 2
+  },
+  "pallet": {
+   "medium": 58217,
+   "small": 33783,
+   "large": 28445
+  },
+  "stillage": {
+   "large": 2830,
+   "medium": 2408,
+   "small": 169
+  },
+  "pallet_truck": {
+   "large": 1783,
+   "medium": 961,
+   "small": 83
+  }
+ },
+ "median_relative_box_area": {
+  "pallet": 0.0021799045138888888,
+  "forklift": 0.029244140625,
+  "pallet_truck": 0.014733072916666666,
+  "stillage": 0.010698784722222222,
+  "small_load_carrier": 0.001953125
+ },
+ "sensors": {
+  "(none)": 1075,
+  "Kinect": 685,
+  "RealSense": 700,
+  "microsoft": 105,
+  "sjcam": 974,
+  "logitech": 213,
+  "Cam1": 186,
+  "Cam2": 221,
+  "Cam3": 207,
+  "cam1": 244,
+  "cam2": 222,
+  "cam3": 265
+ },
+ "groups": 19,
+ "image_sizes": {
+  "1920x1080": 1655,
+  "1280x720": 1460,
+  "640x480": 805,
+  "1280x960": 617,
+  "1280x800": 560
+ },
+ "notes": [
+  "Every image has at least one annotation: images that contain none of the target objects do not exist in LOCO, so negatives are 'target absent, other logistics objects present'.",
+  "Forklifts are rare, especially in official val subset 1.",
+  "Annotated pallets include very small, distant boxes; counts are not 'clearly visible' counts."
+ ],
+ "split_counts": {
+  "test": 2277,
+  "train": 2113,
+  "validation": 707
+ },
+ "splits_sha256": "aa258cce3a358d0f11abfd23ec2b8ad2d04e54dbdf24c7688b6dc604ed326ced",
+ "annotation_fingerprint": {
+  "source": "https://github.com/tum-fml/loco",
+  "license": "CC0-1.0",
+  "citation": "Mayershofer, C., Holm, D.-M., Molter, B., Fottner, J. LOCO: Logistics Objects in Context. IEEE International Conference on Machine Learning and Applications (ICMLA), 2020.",
+  "files": {
+   "loco-sub1-v1-val.json": "3d26a0381794c2ab7d7b4e6843655029e459c5116287a43fa509b5db7934cb20",
+   "loco-sub2-v1-train.json": "938f9b5915852df43d0c27c79dd059856ebb9e6cc27ea67378b6b9bb25c9b33d",
+   "loco-sub3-v1-train.json": "456db71791f356e929125ba636673769bda78fb4a8b77c0293bad4fceab8fa52",
+   "loco-sub4-v1-val.json": "e9e076f08cecba205c70cec9752e7415e73689aed04a64584c4f8428db5c73da",
+   "loco-sub5-v1-train.json": "88a374a39f4ed5ae125223fb6111522672ae70337a29b97570cdcb8c3b0daf23"
+  },
+  "counts": {
+   "sub1": {
+    "images": 1075,
+    "annotations": 24763
+   },
+   "sub2": {
+    "images": 1070,
+    "annotations": 41681
+   },
+   "sub3": {
+    "images": 873,
+    "annotations": 26627
+   },
+   "sub4": {
+    "images": 1202,
+    "annotations": 39729
+   },
+   "sub5": {
+    "images": 877,
+    "annotations": 18628
+   }
+  }
+ }
+}

@@ -64,7 +64,7 @@ def build_plan(dataset, experiment):
         "quantization": QUANTIZATION, "generation_api": "encode_image + query(settings, stream=False)",
         "metric_policy_version": 1,
         "timing": "CUDA-synchronized encode_image + query; excludes decode/load/queue; warmups excluded",
-        "memory": "not measured by this evaluation runner",
+        "memory": "GPU backend records allocated-after-load and peak allocated/reserved during inference in summary.memory",
         "power": "not measured; no energy or power savings claims",
     }
     return {**content, "experiment_sha256": identity(content)}
@@ -226,6 +226,12 @@ def run_evaluation(dataset, experiment, output_root, *, backend=None, approval=N
         state = "failed"
         failure = {"type": type(exc).__name__, "message": str(exc)}
     finally:
+        memory = None
+        if state != "failed" and hasattr(backend, "memory_summary"):
+            try:
+                memory = backend.memory_summary()
+            except Exception as exc:
+                memory = {"error": f"{type(exc).__name__}: {exc}"}
         try:
             backend.close()
         except Exception as exc:
@@ -234,7 +240,7 @@ def run_evaluation(dataset, experiment, output_root, *, backend=None, approval=N
     summary = {"status": state, "execution": backend.kind,
                "not_a_real_accuracy_result": backend.kind == "mock",
                "planned_samples": len(selected), "processed_samples": len(records),
-               "failure": failure, "metrics": aggregate(records)}
+               "failure": failure, "memory": memory, "metrics": aggregate(records)}
     metadata.update(status=state, finished_at=datetime.now(timezone.utc).isoformat(), failure=failure)
     write_json(run / "summary.json", summary)
     # Immutable initial metadata and separate final record preserve interrupted-run evidence.
@@ -291,6 +297,24 @@ class QuantizedBackend:
                      "torch_deterministic_algorithms": torch.are_deterministic_algorithms_enabled(),
                      "cudnn_benchmark": torch.backends.cudnn.benchmark,
                      "bitwise_reproducibility_guaranteed": False}
+        self.allocated_after_load_mib, self.memory_error = None, None
+        try:                                          # best-effort instrumentation; never fails a run
+            torch.cuda.synchronize()
+            self.allocated_after_load_mib = torch.cuda.memory_allocated() / 2**20
+            torch.cuda.reset_peak_memory_stats()      # peaks below cover warmup + inference only
+        except Exception as exc:
+            self.memory_error = f"{type(exc).__name__}: {exc}"
+
+    def memory_summary(self):
+        import torch
+        if self.memory_error:
+            return {"error": self.memory_error}
+        torch.cuda.synchronize()
+        return {"allocated_after_load_mib": self.allocated_after_load_mib,
+                "peak_allocated_during_inference_mib": torch.cuda.max_memory_allocated() / 2**20,
+                "peak_reserved_during_inference_mib": torch.cuda.max_memory_reserved() / 2**20,
+                "total_gpu_mib": torch.cuda.get_device_properties(0).total_memory / 2**20,
+                "note": "PyTorch allocator figures; CUDA context and other processes are not included"}
 
     def metadata(self):
         return self.info

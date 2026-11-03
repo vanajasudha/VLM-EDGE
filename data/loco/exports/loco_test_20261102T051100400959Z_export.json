@@ -1,0 +1,70 @@
+{
+ "split": "test",
+ "available_images": 2277,
+ "per_task_target": null,
+ "tasks": {
+  "forklift_presence": {
+   "available_positive": 101,
+   "available_negative": 2176,
+   "selected_positive": 101,
+   "selected_negative": 2176,
+   "balanced_sample_prevalence_not_representative": false,
+   "subset_counts": {
+    "sub4": 1202,
+    "sub1": 1075
+   }
+  },
+  "pallet_presence": {
+   "available_positive": 2181,
+   "available_negative": 96,
+   "selected_positive": 2181,
+   "selected_negative": 96,
+   "balanced_sample_prevalence_not_representative": false,
+   "subset_counts": {
+    "sub4": 1202,
+    "sub1": 1075
+   }
+  },
+  "pallet_count": {
+   "eligible_images": 500,
+   "excluded": {
+    "ambiguous_small_pallets": 1775,
+    "count_above_max": 2
+   },
+   "max_count": 30,
+   "selected": 500,
+   "selected_by_bucket": {
+    "1-2": 140,
+    "0": 117,
+    "6-10": 95,
+    "11-20": 32,
+    "3-5": 115,
+    "21+": 1
+   },
+   "rule": "pallet_boxes_min_area_v1"
+  }
+ },
+ "manifest": "loco_test_20261102T051100400959Z_manifest.csv",
+ "sidecar": "loco_test_20261102T051100400959Z_sidecar.csv",
+ "seed": 0,
+ "prompts": {
+  "version": "loco_prompts_v1",
+  "forklift_presence": "Is a forklift visible in this image? Answer with only yes or no.",
+  "pallet_presence": "Are any pallets visible in this image? Answer with only yes or no.",
+  "pallet_count": "How many pallets are clearly visible in this image? Answer with only a single whole number."
+ },
+ "rules": {
+  "forklift_presence": "forklift_any_box_v1",
+  "pallet_presence": "pallet_any_box_v1",
+  "pallet_count": "pallet_boxes_min_area_v1"
+ },
+ "attestation": {
+  "attested_by": "Deepika",
+  "attested_at": "2026-11-02T05:11:00.445445+00:00",
+  "statement": "I accept LOCO's manual bounding-box annotations as the reference for the derived presence/count questions in this manifest.",
+  "citation": "Mayershofer, C., Holm, D.-M., Molter, B., Fottner, J. LOCO: Logistics Objects in Context. IEEE International Conference on Machine Learning and Applications (ICMLA), 2020.",
+  "license": "CC0-1.0"
+ },
+ "n_samples": 5054,
+ "count_rule_proxy_note": "pallet_count is an annotation-based proxy: LOCO human bounding boxes whose relative area is >= min_area_frac. It is NOT a human-verified count of clearly visible pallets."
+}

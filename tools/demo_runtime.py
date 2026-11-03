@@ -159,7 +159,8 @@ def preflight(dashboard=False):
 
 
 def wait_rtsp(ffprobe, camera):
-    for _ in range(3):
+    deadline = time.monotonic() + 10
+    while time.monotonic() < deadline:
         try:
             result = subprocess.run([ffprobe, '-v', 'error', '-rtsp_transport', 'tcp',
                                      '-i', f'rtsp://127.0.0.1:8554/{camera}',

@@ -1,0 +1,4 @@
+https://codeload.github.com/tum-fml/loco/zip/main
+upstream commit: b460ab8c37f09162f0613c7546948c496e1b1628
+license: CC0-1.0
+citation: Mayershofer, C., Holm, D.-M., Molter, B., Fottner, J. LOCO: Logistics Objects in Context. IEEE International Conference on Machine Learning and Applications (ICMLA), 2020.

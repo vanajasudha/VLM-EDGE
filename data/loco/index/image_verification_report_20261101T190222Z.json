@@ -1,0 +1,12 @@
+{
+ "images_checked": 0,
+ "images_not_ok": 5097,
+ "status_counts": {
+  "missing": 5097
+ },
+ "near_threshold_hamming": 5,
+ "near_duplicates_are_candidates_only": true,
+ "exact_duplicate_groups": 0,
+ "exact_duplicate_cross_split_groups": 0,
+ "exact_duplicate_examples": []
+}

@@ -1,0 +1,50 @@
+{
+  "started_utc": "2026-11-02T09:15:50.562548+00:00",
+  "streams": {
+    "cam1": {
+      "url": "rtsp://127.0.0.1:8554/cam1",
+      "distinct_decoded_frames": 21,
+      "frames_received": 216,
+      "shape": [
+        656,
+        1172,
+        3
+      ],
+      "age_seconds": 0.02437695899971004
+    },
+    "cam2": {
+      "url": "rtsp://127.0.0.1:8554/cam2",
+      "distinct_decoded_frames": 21,
+      "frames_received": 415,
+      "shape": [
+        656,
+        1168,
+        3
+      ],
+      "age_seconds": 0.03488858099990466
+    },
+    "cam3": {
+      "url": "rtsp://127.0.0.1:8554/cam3",
+      "distinct_decoded_frames": 21,
+      "frames_received": 330,
+      "shape": [
+        656,
+        1170,
+        3
+      ],
+      "age_seconds": 0.007442619999892486
+    },
+    "cam4": {
+      "url": "rtsp://127.0.0.1:8554/cam4",
+      "distinct_decoded_frames": 21,
+      "frames_received": 261,
+      "shape": [
+        656,
+        1166,
+        3
+      ],
+      "age_seconds": 0.01429264200032776
+    }
+  },
+  "passed": true
+}
